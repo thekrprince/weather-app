@@ -2,6 +2,11 @@ window.addEventListener('load', () => {
   let long;
   let lat;
 
+  let timeZone = document.querySelector('.location-timezone');
+  let tempDegree = document.querySelector('.temperature-degree');
+  let description = document.querySelector('.description');
+  let icon = document.querySelector('.icon');
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       console.log(position);
@@ -16,6 +21,14 @@ window.addEventListener('load', () => {
         })
         .then((data) => {
           console.log(data);
+          const { temp_c, condition, last_updated } = data.current;
+          const { country, name, region, tz_id } = data.location;
+          console.log(temp_c);
+          // Set DOM Elements from the API
+          timeZone.textContent = tz_id;
+          tempDegree.textContent = temp_c;
+          description.textContent = condition.text;
+          icon.src = condition.icon;
         });
     });
   } else {
