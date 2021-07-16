@@ -6,6 +6,12 @@ window.addEventListener('load', () => {
   let tempDegree = document.querySelector('.temperature-degree');
   let description = document.querySelector('.description');
   let icon = document.querySelector('.icon');
+  let tempSection = document.querySelector('.degree-section');
+  let tempScale = document.querySelector('.temperature-scale');
+  let humiditySection = document.querySelector('.humidity');
+  let wind = document.querySelector('.wind');
+  let area = document.querySelector('.area');
+  let time = document.querySelector('.time');
 
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -21,14 +27,28 @@ window.addEventListener('load', () => {
         })
         .then((data) => {
           console.log(data);
-          const { temp_c, condition, last_updated } = data.current;
-          const { country, name, region, tz_id } = data.location;
+          const { temp_c, condition, last_updated, humidity, wind_kph } =
+            data.current;
+          const { country, name, region, tz_id, localtime } = data.location;
           console.log(temp_c);
           // Set DOM Elements from the API
           timeZone.textContent = tz_id;
           tempDegree.textContent = temp_c;
           description.textContent = condition.text;
           icon.src = condition.icon;
+          humiditySection.textContent = `Humidity: ${humidity}%`;
+          wind.textContent = `Wind: ${wind_kph} km/h`;
+          area.textContent = `${name}, ${region}, ${country}`;
+          time.textContent = localtime;
+
+          tempSection.addEventListener('click', () => {
+            if (tempScale.textContent === 'C') {
+              tempScale.textContent = 'F';
+            }
+            if (tempScale.textContent === 'F') {
+              tempScale.textContent = 'C';
+            }
+          });
         });
     });
   } else {
