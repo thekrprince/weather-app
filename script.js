@@ -13,11 +13,8 @@ window.addEventListener('load', () => {
   let area = document.querySelector('.area');
   let time = document.querySelector('.time');
 
-  console.log(tempScale.innerText);
-
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
       long = position.coords.longitude;
       lat = position.coords.latitude;
 
@@ -28,7 +25,6 @@ window.addEventListener('load', () => {
           return data.json();
         })
         .then((data) => {
-          console.log(data);
           const { temp_c, temp_f, condition, humidity, wind_kph } =
             data.current;
           const { country, name, region, tz_id, localtime } = data.location;
